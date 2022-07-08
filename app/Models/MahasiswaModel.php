@@ -8,7 +8,7 @@ class MahasiswaModel extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'mahasiswa';
-    protected $primaryKey       = 'IdMhsw';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';

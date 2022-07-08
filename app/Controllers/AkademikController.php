@@ -31,7 +31,7 @@ class AkademikController extends BaseController
             'Nama' => [
                 'rules' => 'required|is_unique[mahasiswa.Nama]',
                 'errors' => [
-                    'requred' => 'kolom Nama wajib diisi',
+                    'required' => 'kolom Nama wajib diisi',
                     'is_unique' => 'Nama sudah digunakan'
                 ]
             ],
@@ -104,6 +104,7 @@ class AkademikController extends BaseController
         $table = 'mahasiswa';
         $primarykey = 'id';
 
+
         $kolom = array(
             array(
                 'db' => 'id',
@@ -137,12 +138,12 @@ class AkademikController extends BaseController
                 'db' => 'id',
                 'dt' => 7,
                 'formatter' => function ($d, $row) {
-                    return "<div class='btn-group>
-                                <button class='btn btn-sm btn-primary' data-id='" . $row['id'] . "' id='updateBtn'>Update</button>
-                                <button class='btn btn-sm btn-danger' data-id='" . $row['id'] . "' id='deleteBtn'>delete</button>
+                    return "<div class='btn-group'>
+                                <button class='btn btn-sm btn-primary' data-id='" . $row['id'] . "' id='updateMahasiswaBtn'>Update</button>
+                                <button class='btn btn-sm btn-danger' data-id='" . $row['id'] . "' id='deleteMahasiswaBtn'>delete</button>
                             </div>";
                 }
-            )
+            ),
         );
 
         echo json_encode(
@@ -152,7 +153,7 @@ class AkademikController extends BaseController
 
     public function getMahasiswaInfo()
     {
-        $id = $this->request->getPost('id');
+        $id = $this->request->getPost('mahasiswa_id');
         $info = $this->mahasiswa->find($id);
 
         if ($info) {
@@ -169,7 +170,7 @@ class AkademikController extends BaseController
 
         $this->validate([
             'Nama' => [
-                'rules' => 'required|is_unique[mahasiswa.Nama]',
+                'rules' => 'required|is_unique[mahasiswa.Nama,id,' . $cid . ']',
                 'errors' => [
                     'requred' => 'kolom Nama wajib diisi',
                     'is_unique' => 'Nama sudah digunakan'
@@ -212,6 +213,7 @@ class AkademikController extends BaseController
         if ($validation->run() == false) {
             $errors = $validation->getErrors();
             echo json_encode(['code' => 0, 'error' => $errors]);
+            exit();
         } else {
             //update country
             $data = [
@@ -234,7 +236,7 @@ class AkademikController extends BaseController
 
     public function deleteMahasiswa()
     {
-        $id = $this->request->getPost('$id');
+        $id = $this->request->getPost('mahasiswa_id');
         $delete = $this->mahasiswa->delete($id);
 
         if ($delete) {

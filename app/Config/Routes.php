@@ -36,7 +36,11 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'AkademikController::index');
-// $routes->get('mahasis')
+$routes->post('addMahasiswa', 'AkademikController::addMahasiswa', ['as' => 'add.mahasiswa']);
+$routes->get('getAllMahasiswa', 'AkademikController::getAllMahasiswa', ['as' => 'get.all.mahasiswa']);
+$routes->post('getMahasiswaInfo', 'AkademikController::getMahasiswaInfo', ['as' => 'get.mahasiswa.info']);
+$routes->post('updateMahasiswa', 'AkademikController::updateMahasiswa', ['as' => 'update.mahasiswa']);
+$routes->post('deleteMahasiswa', 'AkademikController::deleteMahasiswa', ['as' => 'delete.mahasiswa']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing
