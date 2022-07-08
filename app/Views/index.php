@@ -17,6 +17,7 @@
                                 <th>Agama</th>
                                 <th>NoHp</th>
                                 <th>Email</th>
+                                <th>Foto</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -31,7 +32,7 @@
         <div class="card">
             <div class="card-header">Tambah Mahasiswa</div>
             <div class="card-body">
-                <form action="<?= route_to('add.mahasiswa'); ?>" method="POST" id="add-mahasiswa-form" autocomplete="off">
+                <form action="<?= route_to('add.mahasiswa'); ?>" method="POST" enctype="multipart/form-data" id="add-mahasiswa-form" autocomplete="off">
                     <?= csrf_field(); ?>
                     <div class="form-group mb-2">
                         <label for="">Nama</label>
@@ -75,7 +76,13 @@
                         <input type="email" name="Email" class="form-control" placeholder="Masukkan Email">
                         <span class="text-danger error-text Email_error"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="form-group mb-2">
+                        <label for="">Foto</label>
+                        <input type="file" name="Foto" class="form-control mb-3" onchange="previewFile(this);">
+                        <img id="previewImg" src="<?= base_url('assets/img/preview.png'); ?>" class="img-thumbnail" alt="Placeholder">
+                        <span class="text-danger error-text Foto_error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary" class="form-control">Save</button>
                 </form>
             </div>
         </div>
@@ -135,7 +142,10 @@
                 "orderSequence": ["desc"],
                 "targets": [0]
             }],
-            "dom": "lBfrtip",
+            "dom": "Bflrtip",
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             stateSave: true,
             info: true,
             "iDisplayLength": 5,
@@ -254,6 +264,20 @@
         });
 
     });
+
+    function previewFile(input) {
+        var file = $("input[type=file]").get(0).files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                $("#previewImg").attr("src", reader.result);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 
 <?= $this->endSection(); ?>

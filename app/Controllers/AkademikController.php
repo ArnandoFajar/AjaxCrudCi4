@@ -63,16 +63,24 @@ class AkademikController extends BaseController
             'Email' => [
                 'rules' => 'required|valid_email',
                 'errors' => [
-                    'required' => 'kolom wajib diisi',
+                    'required' => 'kolom Email wajib diisi',
                     'valid_email' => 'Email tidak valid'
                 ]
-            ]
+            ],
+            'Foto' => [
+                'rules' => 'uploaded[Foto]',
+                'errors' => [
+                    'required' => 'kolom Foto wajib diisi',
+                ]
+            ],
         ]);
 
         if ($validation->run() == false) {
             $errors = $validation->getErrors();
             echo json_encode(['code' => 0, 'error' => $errors]);
         } else {
+
+            return dd($this->request->getFile('Foto')->getName());
             //insert data into db
             $data = [
                 'Nama' => $this->request->getPost('Nama'),
@@ -135,8 +143,12 @@ class AkademikController extends BaseController
                 'dt' => 6,
             ),
             array(
-                'db' => 'id',
+                'db' => 'Foto',
                 'dt' => 7,
+            ),
+            array(
+                'db' => 'id',
+                'dt' => 8,
                 'formatter' => function ($d, $row) {
                     return "<div class='btn-group'>
                                 <button class='btn btn-sm btn-primary' data-id='" . $row['id'] . "' id='updateMahasiswaBtn'>Update</button>
